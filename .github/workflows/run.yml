@@ -1,0 +1,23 @@
+name: Run
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  Run:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout
+    - name: Setup dotnet
+      uses: actions/setup-dotnet
+      with:
+        dotnet-version: 7.x.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build project
+      run: dotnet build --no-restore
+    - name: Run project
+      run: dotnet run --no-build
