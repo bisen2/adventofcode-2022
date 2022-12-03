@@ -10,14 +10,14 @@ let testInput =
     "CrZsJsPPZsGzwwsLwLmpwMDw"|]
 
 let priority (item: char) =
-  if System.Char.IsUpper item then (int item) - 38
+  if System.Char.IsUpper item then int item - 38
   elif System.Char.IsLower item then int item - 96
   else invalidOp $"Character '{item}' is not a valid item code."
 
 module Part1 =
 
   let bagPriority (bag: string) =
-    (bag.Substring(0, bag.Length/2), bag.Substring(bag.Length/2))
+    (bag[0 .. bag.Length/2], bag[bag.Length / 2 ..])
     |> fun (c1, c2) -> Seq.where (fun i -> Seq.contains i c2) c1
     |> Seq.map priority
     |> Seq.head
@@ -39,10 +39,11 @@ module Part2 =
     if elfId % 3 = 0 then [elfBag] :: state
     else (elfBag :: List.head state) :: List.tail state
 
-  let createGroups : list<string> -> list<string * string * string> =
-    List.indexed
-    >> List.fold folder []
-    >> List.map (fun es -> es.[0], es.[1], es.[2])
+  let createGroups elves =
+    elves
+    |> List.indexed
+    |> List.fold folder []
+    |> List.map (fun es -> es[0], es[1], es[2])
 
   let findBadges (elf1, elf2, elf3) =
     Seq.where (fun i -> Seq.contains i elf1 && Seq.contains i elf2) elf3
