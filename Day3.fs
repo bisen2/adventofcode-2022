@@ -16,11 +16,12 @@ let priority (item: char) =
 
 module Part1 =
 
-  let bagPriority (bag: string) =
-    (bag[0 .. bag.Length/2], bag[bag.Length / 2 ..])
-    |> fun (c1, c2) -> Seq.where (fun i -> Seq.contains i c2) c1
-    |> Seq.map priority
-    |> Seq.head
+  let bagPriority =
+    Seq.splitInto 2
+    >> Seq.map Set.ofSeq
+    >> Set.intersectMany
+    >> Set.map priority
+    >> Seq.sum
 
   let run =
     Array.map bagPriority
@@ -43,11 +44,11 @@ module Part2 =
     elves
     |> List.indexed
     |> List.fold folder []
-    |> List.map (fun es -> es[0], es[1], es[2])
 
-  let findBadges (elf1, elf2, elf3) =
-    Seq.where (fun i -> Seq.contains i elf1 && Seq.contains i elf2) elf3
-    |> Seq.head
+  let findBadges : list<string> -> char =
+    List.map Set.ofSeq
+    >> Set.intersectMany
+    >> Seq.head
 
   let run =
     Array.toList
