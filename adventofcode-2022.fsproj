@@ -5,6 +5,7 @@
     <RootNamespace>adventofcode_2022</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Day4.fs" />
     <Compile Include="Day3.fs" />
     <Compile Include="Day2.fs" />
     <Compile Include="Day1.fs" />
@@ -12,6 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Argu" Version="6.1.1" />
+    <PackageReference Include="FParsec" Version="1.1.1" />
     <PackageReference Include="fsunit" Version="5.1.0" />
   </ItemGroup>
 </Project>
