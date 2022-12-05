@@ -10,7 +10,7 @@ let testInput =
     (6,6), (4,6)
     (2,6), (4,8) |]
 
-let parseLine (input: string) =
+let parseLine input =
   let rangeParser = pint32 .>> pstring "-" .>>. pint32
   let parser = rangeParser .>> pstring "," .>>. rangeParser
   match run parser input with
