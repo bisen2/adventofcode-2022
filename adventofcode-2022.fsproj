@@ -5,6 +5,7 @@
     <RootNamespace>adventofcode_2022</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Day6.fs" />
     <Compile Include="Day5.fs" />
     <Compile Include="Day4.fs" />
     <Compile Include="Day3.fs" />
