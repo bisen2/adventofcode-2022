@@ -8,11 +8,10 @@ let testInputs =
     "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"
     "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw" ]
 
-let findUniqueOfLength length input =
-  input
-  |> Seq.windowed length
-  |> Seq.findIndex (fun x -> x |> Seq.distinct |> Seq.length |> (=) (Seq.length x))
-  |> (+) length
+let findUniqueOfLength length =
+  Seq.windowed length
+  >> Seq.findIndex (fun x -> Seq.length (Seq.distinct x) = Seq.length x)
+  >> (+) length
 
 module Part1 =
 
