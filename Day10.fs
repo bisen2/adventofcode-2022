@@ -10,10 +10,10 @@ let runOp state op =
   | AddX x -> state + x
   | NoOp -> state
 
-let parseLine i (line: string) =
+let parseLine (line: string) =
   match line.Split " " with
-  | [| "addx"; v |] -> [ i, NoOp; i, AddX (System.Int32.Parse v) ]
-  | _ -> [ i, NoOp ]
+  | [| "addx"; v |] -> [ NoOp; AddX (System.Int32.Parse v) ]
+  | _ -> [ NoOp ]
 
 let testInput =
   [|"addx 15"
@@ -166,14 +166,11 @@ let testInput =
 module Part1 =
 
   let run =
-    Array.mapi parseLine
+    Array.map parseLine
     >> List.concat
-    >> List.unzip
-    >> fun (ids,ops) -> ids, List.scan runOp 1 ops
-    >> fun (ids,states) -> List.zip ids states
-    // >> List.scan runOp 1
-    // >> List.indexed
-    // >> List.sumBy (fun (i,s) -> if i % 40 - 20 = 0 then i * s else 0)
+    >> List.scan runOp 1
+    >> List.indexed
+    >> List.sumBy (fun (i,s) -> if i % 40 - 19 = 0 then (i+1) * s else 0)
 
   testInput |> run |> should equal 13140
 
@@ -181,3 +178,40 @@ module Part1 =
     System.IO.File.ReadAllLines
     >> run
     >> string
+
+module Part2 =
+
+  let findOverlaps xs =
+    Seq.init (List.length xs) (fun i -> i % 240)
+    |> Seq.zip xs
+    |> Seq.choose (fun (x,dp) -> if abs(x-(dp%40)) <= 1 then Some dp else None)
+
+  let run input =
+    let xs =
+      input
+      |> Array.map parseLine
+      |> List.concat
+      |> List.scan runOp 1
+    let display = Array.init 240 (fun _ -> '.')
+    do
+      findOverlaps xs
+      |> Seq.iter (fun i -> display[i] <- '#')
+    display
+    |> Array.chunkBySize 40
+    |> Array.map (fun cs -> System.String(cs))
+
+  let testOutput =
+    [|"##..##..##..##..##..##..##..##..##..##.."
+      "###...###...###...###...###...###...###."
+      "####....####....####....####....####...."
+      "#####.....#####.....#####.....#####....."
+      "######......######......######......####"
+      "#######.......#######.......#######....." |]
+
+  testInput |> run |> should equal testOutput
+
+  let solution =
+    System.IO.File.ReadAllLines
+    >> run
+    >> String.concat System.Environment.NewLine
+    >> sprintf "%s%s" System.Environment.NewLine
