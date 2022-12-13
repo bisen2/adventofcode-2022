@@ -14,7 +14,8 @@ let solutions =
     ((6,1), Day6.Part1.solution);  ((6,1), Day6.Part2.solution)
     ((8,1), Day8.Part1.solution);  ((8,1), Day8.Part2.solution)
     ((9,1), Day9.Part1.solution);  ((9,2), Day9.Part2.solution)
-    ((10,1), Day10.Part1.solution);((10,2), Day10.Part2.solution) ]
+    ((10,1), Day10.Part1.solution);((10,2), Day10.Part2.solution)
+    ((13,1), Day13.Part1.solution); ((13,2), Day13.Part2.solution) ]
 
 let runSolution ((day, part), solution) =
   $"{__SOURCE_DIRECTORY__}/Data/Day%d{day}.txt"
